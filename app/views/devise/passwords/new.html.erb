@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Passwort - Vergessen?</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <style>
+    input[type="submit"], .button
+    {
+      position: relative;
+      display: block;
+      text-align: center;
+      width: 250px;
+      min-width: 250px;
+      margin: 0 auto;
+      padding: 0;
+      width: 250px;
+      height: 70px;
+      border: 2px solid #1ECD97;
+      border-radius: 40px;
+      background: transparent;
+      color: #1ECD97;
+      letter-spacing: 1px;
+      font-size: 18px;
+      font-family: 'Montserrat', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+      transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+    }
+
+input[type="submit"]:hover, .button
+{
+  background-color: #1ECD97;
+  border-color: #1ECD97;
+	color: #fff;
+}
+
+input[type="submit"]:focus, .button
+{
+	outline: none;
+}
+    </style>
+	</head>
+
+<body>
+  <div id="page-wrapper">
+
+    <!-- Main -->
+    <article id="main">
+
+      <header class="special container">
+        <h2 class="new_article">Passwort vergessen</h2>
+      <!-- One -->
+
+      <section class="wrapper special style4 container 75%">
+
+        <!-- Content -->
+				<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+				<%= devise_error_messages! %>
+        <div>
+          <form>
+            <div >
+              <div>
+                  <div class="field">
+                    <%= f.label :email %><br />
+                    <%= f.email_field :email, autofocus: true %>
+                  </div>
+              </div>
+            </div>
+              <!--<ul class="messageBtn">
+                  <button>Send</button>
+              </ul>-->
+
+          <div class="progress-button">
+            <%= f.submit "send me instructions" %>
+          </div>
+
+          <div class="delete-button">
+            <button><%= link_to "Abbrechen", articles_path, :class => "menu__link" %></button>
+          </div>
+
+          </form>
+        </div>
+				<%= render "devise/shared/links" %>
+
+				<% end %>
+
+      </section>
+      </article>
+      </div>
+    </body>
+
+		<script>
+			$(document).ready(function () {
+
+				var el1 = document.querySelector(".new_article");
+
+				var options1 = { // word 6
+					size: [
+						300, 180
+					],
+					weight: [
+						18, 8
+					],
+					color: [
+						'#222a35', '#1ECD97'
+					],
+					duration: [
+						1.3,
+						0.6,
+						0.5,
+						0.8,
+						0.6,
+						0.9
+					],
+					delay: 0.15,
+					fade: 0,
+					easing: [d3_ease.easeExpOut.ease, d3_ease.easePolyOut.ease]
+				}
+				var myText1 = new Letters(el1, options1);
+
+				myText1.show();
+			});
+		</script>

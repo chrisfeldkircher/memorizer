@@ -1,0 +1,130 @@
+<!-- Header -->
+<header id="header" class="alt">
+  <div>
+    <h1 id="logo">
+        <!--<div><%=link_to "M", root_path, :id => "logo-Text"%></div>-->
+          <span id="logo-Text"><%= link_to "Memorizer",root_path%></span>
+    </h1>
+  </div>
+    <ul class="icons">
+        <li>
+            <a href="#" class="icon circle fa-instagram">
+                <span class="label">Twitter</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="icon circle fa-snapchat-square">
+                <span class="label">Facebook</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="icon circle fa-paypal">
+                <span class="label">Google+</span>
+            </a>
+        </li>
+    </ul>
+
+    <section class="section section--menu" id="Miranda">
+        <nav class="menu menu--miranda">
+            <ul class="menu_list">
+                <li id="Home" class="menu__item">
+                    <%= link_to "Home", root_path, :class => "menu__link" %>
+                </li>
+                <li id="About" class="menu__item">
+                    <%= link_to "About", about_path, :class => "menu__link" %>
+                </li>
+                <li id="Contact" class="menu__item">
+                    <%= link_to "Support", contact_path, :class => "menu__link" %>
+                </li>
+                <%if admin_signed_in? %>
+                <li id="Account" class="menu__item">
+                    <%= link_to "Account", articles_path, :class => "menu__link" %>
+                </li>
+                <li id="Log-Out" class="menu__item">
+                    <%= link_to "Log-Out", destroy_admin_session_path, method: :delete ,:class => "menu__link" %>
+                </li>
+                <% else %>
+                <li id="Log-In" class="menu__item">
+                    <%= link_to "Log-In", admin_session_path, :class => "menu__link" %>
+                </li>
+                <% end %>
+            </ul>
+        </nav>
+    </section>
+
+    <script>
+        if (window.location.href.indexOf("about") > -1) //About Page
+        //else if (window. location. href == "https://alpha-blog-chrise.herokuapp.com/about") //About Page
+        {
+            console.log("About");
+            document.getElementById("About").classList.add("menu__item--current");
+        }
+        else if (window.location.href.indexOf("contact") > -1) //Contact Page
+        {
+            console.log("Contact");
+            document.getElementById("Contact").classList.add("menu__item--current");
+        }
+        else if (window.location.href.indexOf("articles") > -1 || window.location.href.indexOf("password") > -1 || window.location.href.indexOf("images") > -1)
+        {
+          console.log("Account");
+          document.getElementById("Account").classList.add("menu__item--current");
+        }
+        else if (window.location.href.indexOf("sign_in") > -1)
+        {
+          console.log("Log-In");
+          document.getElementById("Log-In").classList.add("menu__item--current");
+        }
+        else if (window.location.href.indexOf("sign_out") > -1)
+        {
+          console.log("Log-Out");
+          document.getElementById("Log-Out").classList.add("menu__item--current");
+        }
+        // (window.location.href == "http://localhost:3000/" || window.location.href == "http://localhost:3000/#") //Home Page
+        else //(window.location.href == "https://alpha-blog-chrise.herokuapp.com/" || window.location.href == "https://alpha-blog-chrise.herokuapp.com/#" || window.location.href == "https://alpha-blog-chrise.herokuapp.com/#main") //Home Page
+        {
+            console.log("Home");
+            document. getElementById("Home").classList.add("menu__item--current");
+        }
+
+        (function() {
+  			[].slice.call(document.querySelectorAll('.menu')).forEach(function(menu) {
+  				var menuItems = menu.querySelectorAll('.menu__link'),
+  					setCurrent = function(ev) {
+  						ev.preventDefault();
+
+              var goTo = this.getAttribute('href');
+              setTimeout( function()
+              {
+                window.location = goTo;
+              }, 500);
+
+  						var item = ev.target.parentNode; // li
+
+  						// return if already current
+  						if (classie.has(item, 'menu__item--current')) {
+  							return false;
+  						}
+  						// remove current
+  						classie.remove(menu.querySelector('.menu__item--current'), 'menu__item--current');
+  						// set current
+  						classie.add(item, 'menu__item--current');
+  					};
+
+  				[].slice.call(menuItems).forEach(function(el) {
+  					el.addEventListener('click', setCurrent);
+  				});
+  			});
+
+  			[].slice.call(document.querySelectorAll('.link-copy')).forEach(function(link) {
+  				link.setAttribute('data-clipboard-text', location.protocol + '//' + location.host + location.pathname + '#' + link.parentNode.id);
+  				new Clipboard(link);
+  				link.addEventListener('click', function() {
+  					classie.add(link, 'link-copy--animate');
+  					setTimeout(function() {
+  						classie.remove(link, 'link-copy--animate');
+  					}, 300);
+  				});
+  			});
+  		})(window);
+    </script>
+</header>

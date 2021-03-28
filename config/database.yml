@@ -1,0 +1,28 @@
+
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: blog_summer_dolko_development
+  pool: 5
+  username: chris
+  password: Christoph1
+  socket: /var/pgsql_socket
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: blog_summer_dolko_test
+  pool: 5
+  username: chris
+  password: Christoph1
+  socket: /var/pgsql_socket
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: blog_summer_dolko_production
+  pool: 5
+  username: chris
+  password: Christoph1
+  socket: /var/pgsql_socket

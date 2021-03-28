@@ -1,0 +1,6 @@
+AWS_ACCSESS_KEY_ID: ""
+AWS_Secret_Access_Key: ""
+development:
+  AWS_BUCKET:
+production:
+  AWS_BUCKET: 

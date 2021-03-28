@@ -1,0 +1,409 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <style>
+
+    .wrapper-table
+    {
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    .table
+    {
+      margin: 5 10 40px 5;
+      width: 100%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      display: table;
+      display: block;
+      }
+
+      .row
+      {
+        display: table-row;
+        background: #f6f6f6;
+          padding: 8px 0;
+          display: block;
+        }
+
+        .header
+      {
+          font-weight: 900;
+          color: #000000;
+          background: #4a058e;
+        }
+
+        .cell
+        {
+          padding: 6px 12px;
+          display: table-cell;
+            padding: 2px 12px;
+            display: block;
+          }
+
+          .cell1
+          {
+            padding: 6px 12px;
+            display: table-cell;
+              padding: 2px 12px;
+              display: block;
+              width: 15%;
+              color:  #37455b;
+              font-family: "perpetua", sans-serif;
+            }
+
+            .cell2
+            {
+              padding: 6px 12px;
+              display: table-cell;
+                padding: 2px 12px;
+                display: block;
+                color:  #37455b;
+                font-family: "perpetua", sans-serif;
+              }
+
+              .cell3
+              {
+                font-size: 25px;
+                padding: 6px 12px;
+                display: table-cell;
+                  padding: 2px 12px;
+                  display: block;
+                  color:  #37455b;
+                  font-family: "perpetua", sans-serif;
+                }
+
+                .back-button1 {
+                	position: relative;
+                	display: inline-block;
+                	text-align: center;
+                	min-width: 100px;
+                  width: 10%;
+                }
+
+                .back-button1 button {
+                	display: block;
+                	margin: 0 auto;
+                	padding: 0;
+                	width: 100px;
+                  cursor: pointer;
+                	height: 70px;
+                	border: 2px solid #0b82c1;
+                	border-radius: 40px;
+                	background: transparent;
+                	color: #0b82c1;
+                	letter-spacing: 1px;
+                	font-size: 18px;
+                	font-family: 'Montserrat', sans-serif;
+                	-webkit-tap-highlight-color: transparent;
+                	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+                	transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+                  min-width: 120px;
+                }
+
+                .back-button1 button:hover {
+                	background-color: #0b82c1;
+                	color: #fff;
+                }
+
+                .back-button1 button:focus {
+                	outline: none;
+                }
+
+                .progress-button1 {
+                	position: relative;
+                	display: inline-block;
+                	text-align: center;
+                	width: 10%;
+                	min-width: 250px;
+                }
+
+                /* Button style */
+                .progress-button1 button {
+                	display: block;
+                	margin: 0 auto;
+                	padding: 0;
+                	width: 100px;
+                	height: 70px;
+                	border: 2px solid #1ECD97;
+                	border-radius: 40px;
+                	background: transparent;
+                	color: #1ECD97;
+                	letter-spacing: 1px;
+                	font-size: 18px;
+                	font-family: 'Montserrat', sans-serif;
+                	-webkit-tap-highlight-color: transparent;
+                	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+                	transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+                }
+
+                .progress-button1 button:hover {
+                	background-color: #1ECD97;
+                	color: #fff;
+                }
+
+                .progress-button1 button:focus {
+                	outline: none;
+                }
+
+                .menu__link1 {
+                	display: block;
+                	padding: 1em;
+                	cursor: pointer;
+                	-webkit-user-select: none;
+                	-moz-user-select: none;
+                	-ms-user-select: none;
+                	user-select: none;
+                	-webkit-touch-callout: none;
+                	-khtml-user-select: none;
+                	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                }
+
+                .menu__link1:hover,
+                .menu__link1:focus {
+                	outline: none;
+                }
+
+                .menu--miranda .menu__link1 {
+                	position: relative;
+                	display: block;
+                	min-width: 120px;
+                	text-align: center;
+                	color: #b5b5b5;
+                	-webkit-transition: color 0.3s;
+                	transition: color 0.3s;
+                }
+
+                .menu--miranda .menu__link1:hover,
+                .menu--miranda .menu__link1:focus {
+                	color: #929292;
+                }
+
+                .menu--miranda .menu__item--current .menu__link1 {
+                	color: #d94f5c;
+                }
+
+                .menu--miranda .menu__link1::before,
+                .menu--miranda .menu__link1::after {
+                	left: 0;
+                	width: 100%;
+                	height: 2px;
+                	-webkit-transform: scale3d(0, 1, 1);
+                	transform: scale3d(0, 1, 1);
+                }
+
+                /* top line */
+                .menu--miranda .menu__link1::before {
+                	top: 0;
+                	-webkit-transform-origin: 0 50%;
+                	transform-origin: 0 50%;
+                }
+
+                /* bottom line */
+                .menu--miranda .menu__link1::after {
+                	bottom: 0;
+                	-webkit-transform-origin: 100% 50%;
+                	transform-origin: 100% 50%;
+                }
+
+                /* Delays (first reverse, then current) */
+
+                /* These rules can be simplified, but let's keep it for better readability */
+
+                /* bottom line */
+                .menu--miranda .menu__item .menu__link1::after {
+                	-webkit-transition-delay: 0.3s;
+                	transition-delay: 0.3s;
+                }
+
+                .menu--miranda .menu__item--current .menu__link1::after {
+                	-webkit-transition-delay: 0s;
+                	transition-delay: 0s;
+                }
+
+                /* top line */
+                .menu--miranda .menu__item .menu__link1::before {
+                	-webkit-transition-delay: 0.1s;
+                	transition-delay: 0.1s;
+                }
+
+                .menu--miranda .menu__item--current .menu__link1::before {
+                	-webkit-transition-delay: 0.2s;
+                	transition-delay: 0.2s;
+                }
+
+                .menu--miranda .menu__item--current::before,
+                .menu--miranda .menu__item--current::after,
+                .menu--miranda .menu__item--current .menu__link1::before,
+                .menu--miranda .menu__item--current .menu__link1::after {
+                	-webkit-transform: scale3d(1, 1, 1);
+                	transform: scale3d(1, 1, 1);
+                }
+
+.btn button
+{
+    color: #000;
+    background: transparent;
+		height: 70px;
+		margin: 5 10 40px 5;
+    box-shadow: 0px 17px 10px -7px rgba(0, 0, 0, 0.4);
+    border: solid 2px #1ECD97;
+    border-radius: 40px;
+    font-size: 20px;
+    font-family: Brush Script MT;
+    transition: ease-in-out all 300ms;
+}
+
+.btn button:hover
+{
+    color: #000;
+    background-color: #1ECD97;
+		border-color: #1ECD97;
+    transform: translate(0px, -10px);
+    box-shadow: 0px 30px 10px -10px rgba(0, 0, 0, 0.2);
+}
+
+.wrapper.style2 {
+    background-color: /*#83d3c9*/
+    #f6f6f6;
+		border-radius: 40px;
+    color: #f6f6f6;
+}
+    </style>
+	</head>
+  <body>
+    <div id="page-wrapper">
+
+      <!-- Main -->
+      <article id="main">
+
+        <header class="container special">
+          <h2 class="my-text">Account</h2>
+        </header>
+        <!-- One -->
+
+        <section class="wrapper special style4 container">
+          <!-- Content -->
+          <div>
+            <form>
+              <div>
+
+<div class="wrapper-table">
+
+  <div class="table">
+
+    <div class="row header">
+      <div class="cell2">
+        ID
+      </div>
+      <div class="cell1">
+        Name
+      </div>
+      <div class="cell1">
+        Beschreibung
+      </div>
+      <div class="cell1">
+        Erstell-Datum
+      </div>
+    </div>
+
+    <% @images.each do |image| %>
+    <div class="row">
+      <div class="cell3"><%= image.id %></div>
+      <div class="cell"><%= truncate(image.title , :length => 20) %>...</div>
+      <div class="cell"><%= truncate(strip_tags(image.description) , :length => 20)%>...</div>
+      <div class="cell"><%= image.created_at.to_s(:db) %></div>
+      <div class="cell">
+        <div class="progress-button1">
+          <button><%= link_to raw("&#9998 edit"), edit_image_path(image), :class => "menu__link1" %></button>
+        </div>
+        <div class="back-button1">
+          <button><%= link_to raw("&#128194 show"), image_path(image), :class => "menu__link1"%></button>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+            </form>
+          </div>
+
+					<div class="btn">
+						<button><%= link_to "Neuer Artikel", new_article_path, :class => "menu__link" %></button>
+					</div>
+
+        </section>
+
+				<section class="wrapper style2 container special" style="background-color: rgba(34, 42, 53, 0.70);">
+						<div class="row" style="background-color: rgba(34, 42, 53, 0.0);">
+
+							<div style="width: 50%">
+								<header>
+									<h2><strong>Abmelden</strong></h2>
+								</header>
+								<div class="delete-button">
+									<button><%= link_to "Abmelden", destroy_admin_session_path, method: :delete ,:class => "menu__link" %></button>
+								</div>
+							</div>
+
+							<div style="width: 50%">
+								<header>
+									<h2><strong>Passwort ändern</strong></h2>
+								</header>
+								<div class="delete-button">
+									<button><%= link_to "Passwort ändern", edit_admin_registration_path, :class => "menu__link" %></button>
+								</div>
+							</div>
+
+						</div>
+				</section>
+
+				<header class="special container">
+				</header>
+
+        </article>
+
+        </div>
+
+        <script>
+        $(document).ready(function () {
+
+        $('#notice_wrapper_error').hide();
+        $('#notice_wrapper_error').fadeIn("slow", function () {});
+
+        setTimeout(function () {
+            $('#notice_wrapper_error').fadeOut("slow", function () {
+                $(this).remove();
+            })
+        }, 4500);
+
+				var el = document.querySelector(".my-text");
+
+			  var options = { // word 6
+			    size: [
+			      300, 180
+			    ],
+			    weight: [
+			      18, 8
+			    ],
+			    color: [
+			      '#222a35', '#1ECD97'
+			    ],
+			    duration: [
+			      1.3,
+			      0.6,
+			      0.5,
+			      0.8,
+			      0.6,
+			      0.9
+			    ],
+			    delay: 0.15,
+			    fade: 0,
+			    easing: [d3_ease.easeExpOut.ease, d3_ease.easePolyOut.ease]
+			  }
+			  var myText = new Letters(el, options);
+
+			  myText.show();
+        });
+        </script>

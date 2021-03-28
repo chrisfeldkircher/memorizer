@@ -1,0 +1,34 @@
+
+
+<% flash.each do |name, msg| %>
+<% if flash[:notice] %>
+<div id="notice_wrapper_notice">
+    <p class="notice">&#10003;
+        <%=  msg %>
+    </p>
+</div>
+    <%elsif flash[:alert]%>
+    <div id="notice_wrapper_alert">
+        <p class="alert">&#10007;
+            <%=  msg %>
+        </p>
+    </div>
+<% end %>
+<% end %>
+
+<script>
+    $(document).ready(function () {
+      $('#notice_wrapper_notice').hide();
+      $('#notice_wrapper_notice').fadeIn("slow", function () {});
+      $('#notice_wrapper_alert').hide();
+      $('#notice_wrapper_alert').fadeIn("slow", function () {});
+        setTimeout(function () {
+            $('#notice_wrapper_notice').fadeOut("slow", function () {
+                $(this).remove();
+            })
+            $('#notice_wrapper_alert').fadeOut("slow", function () {
+                $(this).remove();
+            })
+        }, 4500);
+    });
+</script>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Blogeintrag: <%= @article.id %></title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	</head>
+  <body>
+    <div id="page-wrapper">
+
+      <!-- Main -->
+      <article id="main">
+
+        <header class="special container">
+          <h2 class="new_article">Blogeintrag</h2>
+        </header>
+        <!-- One -->
+        <section class="wrapper special style4 container 75%">
+          <!-- Content -->
+          <div class="content">
+            <form>
+              <div class="row 50%">
+                <div class="12u" id="titel">
+                    Title:<br>
+                <textarea readonly rows="1" cols="1" style="text-align:center;font-size: 30px;font-family: 'perpetua', sans-serif;color:#000000;"><%= @article.title %></textarea>
+                </div>
+              </div>
+							<div class="row 50%">
+										<div class="12u" id="titel">
+											Titel-Bild:
+											<div class="upload-preview">
+												<%= image_tag @article.image_url(:thumb) if @article.image?%>
+											</div>
+										</div>
+								</div>
+								<div class="row 50%">
+									<div class="12u" id="titel">
+											Beschreibung - für die Startseite:
+									<div id="txt1"><%= @article.postdescription %></div>
+								</div>
+							</div>
+                <div class="row 50%">
+                  <div class="12u" id="titel">
+                      Inhalt:
+                  <div id="txt"><%= @article.description.html_safe %></div>
+                </div>
+              </div>
+                <!--<ul class="messageBtn">
+                    <button>Send</button>
+                </ul>-->
+
+            <div class="progress-button">
+              <button><%= link_to "BEARBEITEN", edit_article_path(@article), :class => "menu__link" %></button>
+            </div>
+            <div class="back-button">
+              <button><%= link_to "ZURÜCK", articles_path, :class => "menu__link" %></button>
+            </div>
+            </form>
+        </section>
+
+      </article>
+
+    </div>
+
+		</div>
+
+		<script>
+		$(document).ready(function () {
+
+		$('#notice_wrapper_error').hide();
+		$('#notice_wrapper_error').fadeIn("slow", function () {});
+
+		setTimeout(function () {
+				$('#notice_wrapper_error').fadeOut("slow", function () {
+						$(this).remove();
+				})
+		}, 4500);
+
+		var el1 = document.querySelector(".new_article");
+
+		var options1 = { // word 6
+			size: [
+				300, 180
+			],
+			weight: [
+				18, 8
+			],
+			color: [
+				'#222a35', '#393B45'
+			],
+			duration: [
+				1.3,
+				0.6,
+				0.5,
+				0.8,
+				0.6,
+				0.9
+			],
+			delay: 0.15,
+			fade: 0,
+			easing: [d3_ease.easeExpOut.ease, d3_ease.easePolyOut.ease]
+		}
+		var myText1 = new Letters(el1, options1);
+
+		myText1.show();
+		});
+		</script>

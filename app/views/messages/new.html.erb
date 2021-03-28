@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kontakt</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <style>
+    input[type="submit"], .button
+    {
+      position: relative;
+      display: block;
+      text-align: center;
+      width: 250px;
+      min-width: 250px;
+      margin: 0 auto;
+      padding: 0;
+      width: 250px;
+      height: 70px;
+      border: 2px solid #1ECD97;
+      border-radius: 40px;
+      background: transparent;
+      color: #1ECD97;
+      letter-spacing: 1px;
+      font-size: 18px;
+      font-family: 'Montserrat', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+      transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+    }
+
+input[type="submit"]:hover, .button
+{
+  background-color: #1ECD97;
+  border-color: #1ECD97;
+  color: #fff;
+}
+
+input[type="submit"]:focus, .button
+{
+  outline: none;
+}
+
+    </style>
+  </head>
+	<body>
+		<div id="page-wrapper">
+
+			<!-- Main -->
+			<article id="main">
+			<header class="special container">
+				<span class="icon fa-envelope"></span>
+				<h2 class="Anliegen">
+					Support
+				</h2>
+				<p style="font-size:30px;">Fragen, Probleme oder Anrgungen? kontaktieren sie Uns</p>
+			</br>
+			</header>
+			<div id="div">
+				<canvas id="canvas"></canvas>
+			</div>
+			<!-- One -->
+			<section class="wrapper style4 special container 75%">
+				<% if @message.errors.any? %>
+				<ul>
+					<% @message.errors.full_messages.each do |msg| %>
+					<li class="errors"> &#x2612; <%= msg %></li>
+					<% end %>
+				</ul>
+				<% end %>
+
+				<!-- Content -->
+
+				<%= form_for @message, url: contact_path do |message_form| %>
+				<div>
+					<form>
+						<div class="row 50%">
+							<div class="6u 12u(mobile)">
+								<%= message_form.text_field :name, placeholder: "Name" %>
+							</div>
+							<div class="6u 12u(mobile)">
+								<%= message_form.email_field :email, placeholder: "Email"%>
+							</div>
+						</div>
+						<div class="row 50%">
+							<div class="12u">
+								<%= message_form.text_field :subject, placeholder: "Betreff"%>
+							</div>
+						</div>
+						<div class="row 50%">
+							<div class="12u">
+								<%= message_form.text_area :content, cols: "30", rows: "15", placeholder: "Message"%>
+							</div>
+						</div>
+						<div class="row">
+							<div class="12u">
+							<!--<ul class="messageBtn">
+									<button>Send</button>
+							</ul>-->
+								<div class="progress-button">
+									<%= message_form.submit "Senden"%>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<% end %>
+			</section>
+			</article>
+    </div>
+
+		<!-- <style>
+			button {
+				margin-top: 30px;
+				padding: 0 50px;
+				color: #FFF;
+				background-color: #393B45;
+				box-shadow: 0 17px 10px -7px rgba(0, 0, 0, 0.4);
+				border: solid 3px #393B45;
+				border-radius: 12px;
+				font-size: 35px;
+				font-family: Brush Script MT;
+				transition: ease-in-out all 300ms;
+			}
+			button:hover {
+				color: #393B45;
+				background-color: #FFF;
+				transform: translate(0px, -10px);
+				box-shadow: 0 30px 10px -10px rgba(0, 0, 0, 0.2);
+			}
+
+		</style> -->
+
+		<script>
+			$(document).ready(function () {
+
+				var el1 = document.querySelector(".contact");
+
+				var options1 = { // word 6
+					size: [
+						300, 180
+					],
+					weight: [
+						18, 8
+					],
+					color: [
+						'#222a35', '#393B45'
+					],
+					duration: [
+						1.3,
+						0.6,
+						0.5,
+						0.8,
+						0.6,
+						0.9
+					],
+					delay: 0.15,
+					fade: 0,
+					easing: [d3_ease.easeExpOut.ease, d3_ease.easePolyOut.ease]
+				}
+				var myText1 = new Letters(el1, options1);
+
+				myText1.show();
+			});
+		</script>
+	</body>
+</html>

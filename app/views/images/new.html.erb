@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Bildbeitrag - erstellen</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<style>
+			.button,
+			input[type="submit"] {
+				position: relative;
+				display: block;
+				text-align: center;
+				width: 250px;
+				min-width: 250px;
+				margin: 0 auto;
+				padding: 0;
+				width: 250px;
+				height: 70px;
+				border: 2px solid #1ECD97;
+				border-radius: 40px;
+				background: transparent;
+				color: #1ECD97;
+				letter-spacing: 1px;
+				font-size: 18px;
+				font-family: 'Montserrat', sans-serif;
+				-webkit-tap-highlight-color: transparent;
+				-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+				transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+			}
+			.button,
+			input[type="submit"]:hover {
+				background-color: #1ECD97;
+				border-color: #1ECD97;
+				color: #fff;
+			}
+			.button,
+			input[type="submit"]:focus {
+				outline: none;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div id="page-wrapper">
+
+			<!-- Main -->
+			<article id="main">
+
+				<header class="special container">
+					<h2 class="new_article">neuer Bildbeitrag</h2>
+				</header>
+				<!-- One -->
+				<% if @image.errors.any? %>
+				<% flash[:alert] = "Fehler - Bitte überprüfen Sie den Eintag" %>
+				<% end %>
+
+				<section class="wrapper special style4 container 75%">
+					<% if @image.errors.any? %>
+					<ul>
+						<% @image.errors.full_messages.each do |msg| %>
+						<li class="errors">
+							&#x2612;
+							<%= msg %></li>
+						<% end %>
+					</ul>
+					<% end %>
+
+					<!-- Content -->
+					<%= form_for @image do |f| %>
+					<div>
+						<form>
+							<div >
+								<div>
+									<p class="txt_field">
+										<div id="titel">
+											<%= f.label :title, "Titel" %><br/>
+										</div>
+										<%= f.text_field :title %>
+									</p>
+								</div>
+							</div>
+							<div>
+								<div>
+									<p>
+										<div id="titel">
+											<%= f.label :description, "Bild" %>
+											<br/>
+										</div>
+									</p>
+									<div class="upload-preview">
+										<img id="thumbnail"></img>
+									</div>
+									<%= f.file_field :image, :class => "inputfile-2", :id => "file-2" %>
+									<label for="file-2">
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+											<path
+												d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path>
+										</svg>
+										<span>Choose a file…</span>
+									</label>
+								</div>
+							</div>
+							<div>
+								<div>
+									<p>
+										<div id="titel">
+											<%= f.label :description, "Inhalt des Eintrags" %>
+											<br/>
+										</div>
+										<%= f.text_area :description, cols: "30", rows: "15", id: "edit"%>
+									</p>
+								</div>
+							</div>
+							<!--<ul class="messageBtn">
+                    <button>Send</button>
+                </ul>-->
+
+							<div class="progress-button">
+								<%= f.submit "SPEICHERN"%>
+							</div>
+
+							<div class="cancel-button">
+								<button><%= link_to "ABBRECHEN", images_path, :class => "menu__link" %></button>
+							</div>
+
+						</form>
+					</div>
+
+					<% end %>
+				</section>
+
+			</article>
+
+		</div>
+		<script>
+			$(function () {
+				$('#edit').froalaEditor({height: 800})
+			});
+
+			$(document).ready(function () {
+				var inputs = document.querySelectorAll('.inputfile-2');
+
+				Array.prototype.forEach.call(inputs, function (input)
+				{
+					var label = input.nextElementSibling,
+						labelVal = label.innerHTML;
+
+					input.addEventListener('change', function (e)
+					{
+						var fileName = '';
+
+						if( this.files && this.files.length > 1 )
+			        fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+		        else
+		        	fileName = e.target.value.split( '\\' ).pop();
+
+						if (fileName)
+							label.querySelector('span').innerHTML = fileName;
+						else
+							label.innerHTML = labelVal;
+						});
+				});
+
+				var preview = $(".upload-preview img");
+
+				$(".inputfile-2").change(function (event) {
+
+					var input = $(event.currentTarget);
+
+					var file = input[0].files[0];
+
+					var reader = new FileReader();
+
+					reader.onload = function (e) {
+						image_base64 = e.target.result;
+						preview.attr("src", image_base64);
+						preview.attr("width", "600");
+					};
+
+					reader.readAsDataURL(file);
+				});
+
+				$('#notice_wrapper_error').hide();
+				$('#notice_wrapper_error').fadeIn("slow", function () {});
+
+				setTimeout(function () {
+					$('#notice_wrapper_error').fadeOut("slow", function () {
+						$(this).remove();
+					})
+				}, 4500);
+
+				var el1 = document.querySelector(".new_article");
+
+				var options1 = { // word 6
+					size: [
+						300, 180
+					],
+					weight: [
+						18, 8
+					],
+					color: [
+						'#222a35', '#1ECD97'
+					],
+					duration: [
+						1.3,
+						0.6,
+						0.5,
+						0.8,
+						0.6,
+						0.9
+					],
+					delay: 0.15,
+					fade: 0,
+					easing: [d3_ease.easeExpOut.ease, d3_ease.easePolyOut.ease]
+				}
+				var myText1 = new Letters(el1, options1);
+
+				myText1.show();
+			});
+		</script>

@@ -1,0 +1,718 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Memorizer</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+		<style>
+
+		/* Grid item */
+		.grid__item {
+		  padding: 45px 55px 30px;
+		  position: relative;
+		  color: inherit;
+		  background: #fff;
+		  min-height: 300px;
+		  cursor: pointer;
+		  text-align: center;
+		  display: -webkit-box;
+		  display: -webkit-flex;
+		  display: -ms-flexbox;
+		  display: flex;
+		  -webkit-box-direction: normal;
+		  -webkit-box-orient: vertical;
+		  -webkit-flex-direction: column;
+		  -ms-flex-direction: column;
+		  flex-direction: column;
+		  -webkit-justify-content: center;
+		  justify-content: center;
+			border: solid 1px #222a35;
+		}
+
+		.grid__item:hover, .grid__item:focus
+		{
+			border-color: #83d3c9;
+		}
+
+		/* Grid item "border" */
+		.grid__item::before {
+		  position: absolute;
+		  content: '';
+		  top: 0px;
+		  right: 55px;
+		  bottom: 0px;
+		  left: 55px;
+		}
+
+		.grid__item * {
+		  z-index: 10;
+		}
+
+		/* grid item element and full content element styles */
+		.title {
+		  margin: 0;
+		  font-size: 1.875em;
+		  font-family: "Playfair Display", serif;
+		  text-align: center;
+		}
+
+		.title--preview {
+		  -webkit-flex: 1;
+		  flex: 1;
+		  display: -webkit-flex;
+		  display: flex;
+		  -webkit-align-items: center;
+		  align-items: center;
+		  -webkit-justify-content: center;
+		  justify-content: center;
+		  width: 100%;
+		}
+
+		.loader {
+		  height: 1px;
+		  width: 40%;
+		  margin: 1em auto;
+		  position: relative;
+		  background: rgba(0, 0, 0, 0.1);
+		}
+
+		.loader::before {
+		  content: '';
+		  position: absolute;
+		  width: 100%;
+		  height: 3px;
+		  background: #a4e7ad;
+		  left: 0;
+		  top: -1px;
+		  -webkit-transform: scale3d(0, 1, 1);
+		  transform: scale3d(0, 1, 1);
+		  -webkit-transform-origin: 0% 50%;
+		  transform-origin: 0% 50%;
+		}
+
+		.grid__item--loading .loader::before {
+		  -webkit-transition: -webkit-transform 1s;
+		  transition: transform 1s;
+		  -webkit-transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+		  transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+		  -webkit-transform: scale3d(1, 1, 1);
+		  transform: scale3d(1, 1, 1);
+		}
+
+		.title--preview,
+		.loader{
+		  -webkit-transition: -webkit-transform 0.2s, opacity 0.2s;
+		  transition: transform 0.2s, opacity 0.2s;
+		  -webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+		  transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+		}
+
+		/* closing (delays) */
+		.title--preview {
+		  -webkit-transition-delay: 0.15s;
+		  transition-delay: 0.15s;
+		}
+
+		.loader {
+		  -webkit-transition-delay: 0.1s;
+		  transition-delay: 0.1s;
+		}
+
+		/* opening */
+		.grid__item--animate .title--preview {
+		  -webkit-transition-delay: 0s;
+		  transition-delay: 0s;
+		  opacity: 0;
+		  -webkit-transform: translate3d(0, -20px, 0);
+		  transform: translate3d(0, -20px, 0);
+		}
+
+		.grid__item--animate .loader {
+		  -webkit-transition-delay: 0.1s;
+		  transition-delay: 0.1s;
+		  opacity: 0;
+		  -webkit-transform: translate3d(0, -30px, 0);
+		  transform: translate3d(0, -30px, 0);
+		}
+
+		.meta__date
+		{
+		  display: block;
+		  text-align: center;
+		  color: #aaa;
+		}
+
+		.meta--preview .meta__date
+		{
+		  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+		  transition: transform 0.3s, opacity 0.3s;
+		  -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+		  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+		}
+
+		.grid__item--animate .meta__date {
+		  -webkit-transition-delay: 0.17s;
+		  transition-delay: 0.17s;
+		}
+
+		.grid__item--animate .meta__date
+		{
+		  -webkit-transform: scale3d(0.5, 0.5, 1);
+		  transform: scale3d(0.5, 0.5, 1);
+		  opacity: 0;
+		}
+
+		/* Placeholder element (dummy that gets animated when we click on an item) */
+		.placeholder {
+		  pointer-events: none;
+		  position: absolute;
+		  width: calc(100% + 5px);
+		  height: calc(100vh + 5px);
+		  z-index: 100;
+		  top: 0;
+		  left: 0;
+		  background: #fff;
+		  -webkit-transform-origin: 0 0;
+		  transform-origin: 0 0;
+		}
+
+		.placeholder.placeholder--trans-in {
+		  -webkit-transition: -webkit-transform 0.5s;
+		  transition: transform 0.5s;
+		  -webkit-transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+		  transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+		}
+
+		.placeholder.placeholder--trans-out {
+		  -webkit-transition: -webkit-transform 0.5s;
+		  transition: transform 0.5s;
+		}
+
+
+		/* single content item */
+		.content__item {
+		  position: absolute;
+		  top: 0;
+		  width: 100%;
+		  overflow: hidden;
+		  height: 0;
+		  opacity: 0;
+		  padding: 60px 60px 80px 60px;
+		  pointer-events: none;
+		  font-size: 0.85em;
+		}
+		.content__item p {
+		  max-width: 1200px;
+		  margin: 1em auto;
+		  text-align: justify;
+		}
+		.content__item p:first-of-type {
+		  font-size: 1.35em;
+		}
+
+		.content__item.content__item--show {
+		  height: auto;
+		  min-height: 100vh;
+		  opacity: 1;
+		  pointer-events: auto;
+		  -webkit-transition: opacity 0.6s;
+		  transition: opacity 0.6s;
+		}
+
+		  .main {
+		    height: 100%;
+		    margin-left: 300px;
+		  }
+
+		  .content__item {
+		    font-size: 1em;
+		  }
+
+		  .grid__item {
+		    padding: 45px 45px 30px;
+		  }
+
+		  /* Demo ad */
+		  body #cdawrap {
+		    right: auto;
+		    left: 30px;
+		    top: auto;
+		    bottom: 0;
+		    background: none;
+		    border: none;
+		    width: 240px;
+		    background: #f5f5f5;
+		  }
+
+			a:hover
+			{
+				color:inherit;
+			}
+
+		  body #cdawrap #cda-remove {
+		    display: none;
+		  }
+		}
+
+		  /* 2 columns */
+		  .grid__item
+			{
+		    width: 50%;
+		    border: none;
+		  }
+
+		  .grid__item::before {
+		    top: 5px;
+		    right: 5px;
+		    bottom: 5px;
+		    left: 5px;
+		    -webkit-transition: opacity 0.3s;
+		    transition: opacity 0.3s;
+		  }
+
+		  .grid__item--loading.grid__item::before {
+		    opacity: 0;
+		  }
+
+			.link {
+				outline: none;
+				text-decoration: none;
+				position: relative;
+				font-size: 8em;
+				line-height: 1;
+				color: #9e9ba4;
+				display: inline-block;
+			}
+
+			/* Takiri */
+.link--takiri {
+	font-style: italic;
+	font-family: 'Playfair Display', serif;
+	font-weight: 700;
+	font-size: 7em;
+	padding: 0 10px 20px;
+	-webkit-transition: color 0.5s;
+	transition: color 0.5s;
+}
+
+.link--takiri:hover {
+	color: #222a35;
+}
+
+.link--takiri::before {
+	content: '';
+	position: absolute;
+	height: 36px;
+	width: 120%;
+	top: 50%;
+	margin-top: -18px;
+	left: -10%;
+	z-index: -1;
+	background: #fff;
+	-webkit-transform: rotate3d(0,0,1,45deg) scale3d(0,1,1);
+	transform: rotate3d(0,0,1,45deg) scale3d(0,1,1);
+	-webkit-transition: -webkit-transform 0.5s;
+	transition: transform 0.5s;
+}
+
+.link--takiri:hover::before {
+	-webkit-transform: rotate3d(0,0,1,45deg) scale3d(1,1,1);
+	transform: rotate3d(0,0,1,45deg) scale3d(1,1,1);
+}
+
+.link--takiri span {
+	font-size: 20%;
+	font-weight: 400;
+	position: absolute;
+	right: 15px;
+	color: #e53369;
+	bottom: 0;
+	opacity: 0;
+	-webkit-transform: translate3d(-10px,-10px,0);
+	transform: translate3d(-10px,-10px,0);
+	-webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+	transition: transform 0.5s, opacity 0.5s;
+}
+
+.link--takiri:hover span {
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+		</style>
+	</head>
+
+	<body class="index">
+		<div id="page-wrapper">
+
+			<!-- Banner -->
+			<section class="demo-1" id="banner1">
+				<!--
+						".inner" is set up as an inline-block so it automatically expands
+						in both directions to fit whatever's inside it. This means it won't
+						automatically wrap lines, so be sure to use line breaks where
+						appropriate (<br />).
+					-->
+						<div id="large-header" height:="height:" 665px;="665px;" class="large-header">
+						<!--<canvas id="demo-canvas"></canvas>-->
+							<div id="particles-js"></div>
+						<h2 class="my-text main-title">Memorizer</h2>
+					</div>
+
+			</section>
+
+			<!-- Main -->
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon fa-connectdevelop"></span>
+
+				<div style="display:block;text-align:center;" class="grid__item1">
+	        <a class="link link--takiri" href="#articles">Anstehendes<span>prüfen Sie ihre heutigen Aufgaben</span></a>
+        </div>
+
+				</header>
+
+				<!-- One -->
+				<section id="articles" class="style3 special">
+				<section class="grid">
+					<!-- <% @article.take(4).each do |article| %> -->
+
+				<section style="text-align: center;" class="wrapper">
+					<%= link_to post_path(article), :class => "grid__item /title--preview" do %>
+
+							<h2 class="title title--preview"><strong><%=article.title%></strong></h2>
+							<div class="loader"></div>
+							<div class="title--preview"><%= truncate(strip_tags(article.postdescription) , :length => 500) %></div>
+							<div class="meta meta--preview">
+								<span class="meta__date">
+									<i class="fa fa-calendar-o"></i>
+									<%=article.created_at.strftime("%a - %d %b %Y")%>
+								</span>
+		 					</div>
+						<% end %>
+
+				<!-- <div class="4u 12u(narrower) important(narrower)">
+
+							<ul class="featured-icons">
+								<li>
+									<span class="icon fa-clock-o">
+										<span class="label">Feature 1</span>
+									</span>
+								</li>
+								<li>
+									<span class="icon fa-volume-up">
+										<span class="label">Feature 2</span>
+									</span>
+								</li>
+								<li>
+									<span class="icon fa-laptop">
+										<span class="label">Feature 3</span>
+									</span>
+								</li>
+								<li>
+									<span class="icon fa-inbox">
+										<span class="label">Feature 4</span>
+									</span>
+								</li>
+								<li>
+									<span class="icon fa-lock">
+										<span class="label">Feature 5</span>
+									</span>
+								</li>
+								<li>
+									<span class="icon fa-cog">
+										<span class="label">Feature 6</span>
+									</span>
+								</li>
+							</ul>
+
+						</div> -->
+				</section>
+			<% end %>
+				<ul class="buttons vertical">
+					<li>
+						<%= link_to "#" , class: "button fit scrolly" do%>
+						Mehr Anzeigen
+						<% end %>
+					</li>
+				</ul>
+		</section>
+	</section>
+
+</br>
+</br>
+
+		<!-- Two -->
+		<!--<section class="wrapper style1 container special">
+					<div class="row">
+						<div class="4u 12u(narrower)">
+
+							<section>
+								<!--	<span class="icon featured fa-check"></span> -->
+		<!--<header>
+									<h3>Bla Bla Bla</h3>
+								</header>
+								<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
+							</section>
+
+						</div>
+						<div class="4u 12u(narrower)">
+
+							<section>
+								<!-- <span class="icon featured fa-check"></span> -->
+		<!--<header>
+									<h3>Bla Bla Bla</h3>
+								</header>
+								<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
+							</section>
+
+						</div>
+						<div class="4u 12u(narrower)">
+
+							<section>
+								<!-- <span class="icon featured fa-check"></span> -->
+		<!--<header>
+									<h3>Bla Bla Bla</h3>
+								</header>
+								<p>Sed tristique purus vitae volutpat ultrices. Aliquam eu elit eget arcu commodo suscipit dolor nec nibh. Proin a ullamcorper elit, et sagittis turpis. Integer ut fermentum.</p>
+							</section>
+
+						</div>
+					</div>
+				</section>
+
+				<!-- Three -->
+		<section class="wrapper style3 container special">
+
+			<header class="major">
+				<h2>
+					<strong>Aufgaben</strong>
+				</h2>
+			</header>
+			<div class="row">
+				<% @images.take(4).each do |image| %>
+				<div class="6u 12u(narrower)">
+					<section>
+						<%= link_to calendar_path, :class => "image featured" do %>
+						<%= image_tag image.image_url(:thumb) if image.image?%></a>
+					<% end %>
+					<header>
+						<h3><%= image.title%></h3>
+					</header>
+					<p><%= image.description.html_safe %></p>
+				</section>
+			</div>
+			<% end %>
+		</div>
+
+		<footer class="major">
+			<ul class="buttons">
+				<li>
+					<%= link_to "zum Kalender", calendar_path, :class => "button" %>
+				</li>
+			</ul>
+		</footer>
+	</div>
+
+</section>
+
+</article>
+
+<!-- CTA -->
+<!-- <section id="cta">
+
+					<header>
+						<h2>Ready to do <strong>something</strong>?</h2>
+						<p>Proin a ullamcorper elit, et sagittis turpis integer ut fermentum.</p>
+					</header>
+					<footer>
+						<ul class="buttons">
+							<li><a href="#" class="button special">Take My Money</a></li>
+							<li><a href="#" class="button">LOL Wut</a></li>
+						</ul>
+					</footer>
+
+				</section>-->
+</div>
+
+<script>
+$(document).ready(function () {
+
+	gridItemsContainer = document.querySelector('section.grid'),
+	contentItemsContainer = document.querySelector('section.content'),
+	gridItems = gridItemsContainer.querySelectorAll('.grid__item'),
+	current = -1,
+	isAnimating = false;
+
+	function initEvents()
+	{
+		[].slice.call(gridItems).forEach(function(item, pos) {
+			// grid item click event
+			item.addEventListener('click', function(ev) {
+				ev.preventDefault();
+				if(isAnimating || current === pos) {
+					return false;
+				}
+				var goTo = this.getAttribute('href');
+				isAnimating = true;
+				// index of current item
+				current = pos;
+				// simulate loading time..
+				classie.add(item, 'grid__item--loading');
+				setTimeout(function() {
+					classie.add(item, 'grid__item--animate');
+					// reveal/load content after the last element animates out (todo: wait for the last transition to finish)
+					setTimeout(function() {
+						window.location = goTo;
+					}, 500);
+				}, 1000);
+			});
+		});
+	};
+
+	initEvents();
+
+	var el = document.querySelector(".my-text");
+
+	var options = { // word 6
+		size: [
+			300, 180
+		],
+		weight: [
+			18, 8
+		],
+		color: [
+			'#222a35', '#f1f1f1'
+		],
+		duration: [
+			1.3,
+			0.6,
+			0.5,
+			0.8,
+			0.6,
+			0.9
+		],
+		delay: 0.15,
+		fade: 0,
+		easing: [d3_ease.easeExpOut.ease, d3_ease.easePolyOut.ease]
+	}
+	var myText = new Letters(el, options);
+
+	myText.show();
+});
+
+particlesJS('particles-js',
+
+  {
+    "particles":
+		{
+      "number":
+			{
+        "value": 150,
+        "density":
+				{
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#621ba1"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "rgba(#ffffff, 0.94)"
+        },
+        "polygon": {
+          "nb_sides": 5
+        },
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 5,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#00ffe0",
+        "opacity": 0.4,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 4,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "repulse"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 400,
+          "line_linked": {
+            "opacity": 1
+          }
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 200
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    },
+    "retina_detect": true,
+  },
+
+);
+</script>
+</body>
+</html>
