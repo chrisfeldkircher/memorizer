@@ -54,7 +54,7 @@ gem 'devise', '~> 4.2'
 
 #gem 'paperclip', '~> 5.1'
 
-gem 'carrierwave', '~> 1.0'
+gem 'carrierwave', '~> 1.3'
 
 gem "mini_magick"
 
